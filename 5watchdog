@@ -261,6 +261,21 @@ while true; do
     # Percent of GPUs below threshold
     PCT_GPU_BAD=$((100 * NUM_GPU_BLW_THRSHLD / GPU_COUNT ))
 
+    # Miner PID and Miner Running time
+    MINER_PID=$(ps -ef | grep -i screen | grep miner |awk '{print $2}')
+    MINER_TIME=$(ps -eo pid,etimes | grep $MINER_PID | awk '{print $2}')
+    #If miner running time is less than (sleep time * 2 ) and less than 40% GPUs hasnt reached threshold yet, give it more time
+    if [[ $MINER_TIME -le $((SLEEP_TIME * 2 )) ]] && [[ $PCT_GPU_BAD -le 40 ]]
+    then
+      echo "Miner up time $MINER_TIME, $NUM_GPU_BLW_THRSHLD of $GPU_COUNT GPUs below threshold, give it 60 more seconds "
+      echo "Percent of GPUs below threshold $PCT_GPU_BAD%"
+      sleep 60
+      #If miner running time is more than (sleep time * 2) or too many GPUs bellow threshold continue checking for problem
+    else
+      echo "Miner up time is $MINER_TIME, $NUM_GPU_BLW_THRSHLD of $GPU_COUNT GPUs below threshold, Continue checking for problem"
+      echo "Percent of GPUs below threshold $PCT_GPU_BAD%"
+    fi
+
     #  If we have had too many GPU below threshold over time OR
     #     we have ALL GPUs below threshold AND had at least (#GPUs + 1)
     #        occurrences of below threshold (2nd run through the loop
