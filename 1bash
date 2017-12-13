@@ -296,7 +296,7 @@ RESTORE_POWER_LIMIT=90      # Restore original Power Limit if fan speed is lower
 # https://youtu.be/HS7Q1zH00bs
 # If You set telegram to "NO" but add CHATID and API, you will only get notifications from system.
 
-BaliMiner_TELEGRAM_ALERTS="NO"       # YES or NO # Set to YES if you want to use Telegram service
+TELEGRAM_ALERTS="NO"       # YES or NO # Set to YES if you want to use Telegram service
 
 TELEGRAM_TYPE="papampi"              # kk003 or papampi or damNmad or BaliMiner # There are 4 versions. Please choose one
 
