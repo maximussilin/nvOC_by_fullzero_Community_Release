@@ -2,7 +2,7 @@
 
 ##########################################################################
 ##########################################################################
-#################   nvOC v0019-2.0 - Community Release   #################
+#################   nvOC v0019-2.1 - Community Release   #################
 ##############        by papampi, Stubo and leenoox         ##############
 ##########   Based on the original nvOC v0019-1.4 by fullzero   ##########
 ##########################################################################
@@ -36,8 +36,8 @@
 #
 # DEV_VERSION=0009
 
-nvOC_Ver="nvOC v0019-2.0 - Community Release"
-nvOC_wdog_ver="v0019-2.0.009"   # Do not edit this
+nvOC_Ver="nvOC v0019-2.1 - Community Release"
+nvOC_wdog_ver="v0019-2.1"   # Do not edit this
 
 echo "Watchdog for $nvOC_Ver"
 echo "Version: $nvOC_wdog_ver"
@@ -99,7 +99,7 @@ echo ""
 sleep 2
 
 # Dont send telegram alert after every WTM switch, if WTM is YES then don't send telegram at all watchdog starts
-if [[ $BaliMiner_TELEGRAM_ALERTS == "YES" && $WTM_AUTO_SWITCH == "NO" ]]; then
+if [[ $TELEGRAM_ALERTS == "YES" && $WTM_AUTO_SWITCH == "NO" ]]; then
   bash '/home/m1/telegram'
 fi
 
@@ -182,7 +182,7 @@ while true; do
         nvidia-smi --query-gpu=gpu_bus_id --format=csv | tee -a ${LOG_FILE}
         echo "$(date) - reboot in 10 seconds"  | tee -a ${LOG_FILE}
         echo ""
-        if [[ $BaliMiner_TELEGRAM_ALERTS == "YES" ]]; then
+        if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash '/home/m1/telegram'
         fi
         sleep 10
@@ -202,7 +202,7 @@ while true; do
         nvidia-smi --query-gpu=gpu_bus_id --format=csv | tee -a ${LOG_FILE}
         echo "$(date) - reboot in 10 seconds"  | tee -a ${LOG_FILE}
         echo ""
-        if [[ $BaliMiner_TELEGRAM_ALERTS == "YES" ]]; then
+        if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash '/home/m1/telegram'
         fi
         sleep 10
@@ -295,7 +295,7 @@ while true; do
       then
         echo "CRITICAL: $(date) - Utilization is too low: reviving did not work so restarting system in 10 seconds" | tee -a ${LOG_FILE}
         echo ""
-        if [[ $BaliMiner_TELEGRAM_ALERTS == "YES" ]]; then
+        if [[ $TELEGRAM_ALERTS == "YES" ]]; then
           bash '/home/m1/telegram'
         fi
         sleep 10
@@ -305,7 +305,7 @@ while true; do
       # Kill the miner to be sure it's gone
       pkill -e miner
       echo "CRITICAL: $(date) - GPU Utilization is too low: restarting 3main..." | tee -a ${LOG_FILE}
-      if [[ $BaliMiner_TELEGRAM_ALERTS == "YES" ]]; then
+      if [[ $TELEGRAM_ALERTS == "YES" ]]; then
         bash '/home/m1/telegram'
       fi
       # Best to restart 1bash - settings might be adjusted already
